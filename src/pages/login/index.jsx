@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Layout, Button, Checkbox, Form, Input, Modal, message } from "antd";
+import { Layout, Button, Form, Input, Modal, message } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { reqAuth } from '../../api/index';
 import PubSub from "pubsub-js";
@@ -16,51 +16,51 @@ export default function Login() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-      (async function auth() {
-        const response = await reqAuth();
-        const { msg, username } = response.data;
-        // eslint-disable-next-line default-case
-        switch (msg) {
-          case '请登录！':
-            message.info('请登录！');
-            break;
-          case '请注册！':
-            message.info('请注册！');
-            break;
-          case '权限校验成功！':
-            PubSub.publish('username', username);
-            navigate('/');
-            break;
-        }
-      })(); 
-    })
+    // useEffect(() => {
+    //   (async function auth() {
+    //     const response = await reqAuth();
+    //     const { msg, username } = response.data;
+    //     // eslint-disable-next-line default-case
+    //     switch (msg) {
+    //       case '请登录！':
+    //         message.info('请登录！');
+    //         break;
+    //       case '请注册！':
+    //         message.info('请注册！');
+    //         break;
+    //       case '权限校验成功！':
+    //         PubSub.publish('username', username);
+    //         navigate('/');
+    //         break;
+    //     }
+    //   })(); 
+    // })
 
     const onFinish = async(values) => {
-    const {username, password} = values;
+      const {username, password} = values;
 
-    const response = await reqLogin(username, password);
-    //console.log(response);
-    const {msg, token} = response.data;
+      const response = await reqLogin(username, password);
+      //console.log(response);
+      const {msg, token} = response.data;
 
-    // eslint-disable-next-line default-case
-    switch (msg) {
-      case 'Cookie set success!':
-        message.success('登录成功');
-        // 存储token
-        window.sessionStorage.setItem('token', token);
-        // 存username状态，利用PubSub传值
-        PubSub.publish('username', username);
-        // 跳转到home页面！
-        navigate('/');
-        break;
-      case 'User does not exist': 
-        message.error('用户不存在，请先注册！');
-        break;
-      case 'Wrong password':
-        message.error('密码错误，请再次输入！');
-        break;
-    }
+      // eslint-disable-next-line default-case
+      switch (msg) {
+        case 'Cookie set success!':
+          message.success('登录成功');
+          // 存储token
+          window.sessionStorage.setItem('token', token);
+          // 存username状态，利用PubSub传值
+          PubSub.publish('username', username);
+          // 跳转到home页面！
+          navigate('/');
+          break;
+        case 'User does not exist': 
+          message.error('用户不存在，请先注册！');
+          break;
+        case 'Wrong password':
+          message.error('密码错误，请再次输入！');
+          break;
+      }
   };
 
 

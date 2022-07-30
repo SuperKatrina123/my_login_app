@@ -9,8 +9,8 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(config => { 
-    console.log('config', config);
-    config.headers.Authorization = sessionStorage.getItem('admin') || '';
+    // console.log('config', config);
+    config.headers.Authorization = sessionStorage.getItem('token') || '';
     return config;
 }, err => {
     return Promise.reject(err);
@@ -27,7 +27,7 @@ instance.interceptors.response.use(response => {
     }
 }, err => {
     if (err.response) {
-        // token失效
+        // token失效，回到登录页面
         window.history.pushState(null, 'login','/login');
     }
 })

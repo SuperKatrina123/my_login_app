@@ -1,0 +1,14 @@
+.h1_container {
+  height: 100%;
+  width: 100%;
+  background-color: #dce2f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.wel {
+  background-color: whitesmoke;
+  width: 1000px;
+  text-align: center;
+}
